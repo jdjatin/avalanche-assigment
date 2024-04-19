@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import logo from "../src/assets/logo.jpg";
 import { ethers } from "ethers";
 import PriceFeed from "../src/artifacts/contracts/HelloWorld.sol/PriceFeed.json";
 
 function App() {
-  const [storedPrice, setStoredPrice] = useState("");
-  const [selectedPair, setSelectedPair] = useState("");
+
   const [provider, setProvider] = useState(null);
+  
   const [connectedAddress, setConnectedAddress] = useState("");
+  
+  const [storedPrice, setStoredPrice] = useState("");
+  
+  const [selectedPair, setSelectedPair] = useState("");
 
   const contractAddress = "0xC37a637F7263f8f2f0cE0fe2B96a8B906944452C";
+  
 
   useEffect(() => {
+    
     async function connectProvider() {
-      // Check if MetaMask is installed
+      
       if (window.ethereum) {
         try {
-          // Request account access if needed
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",
           });
-          // Set provider
+          
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           setProvider(provider);
-          // Set connected address
           setConnectedAddress(accounts[0]);
         } catch (error) {
-          console.error("Error connecting to Ethereum provider:", error);
+          console.error("Can't connect to Eth provider---->>", error);
         }
       }
     }
@@ -41,12 +44,14 @@ function App() {
 
   const handleSubmit = async () => {
     try {
+      
       if (!provider) {
-        console.error("Ethereum provider not connected.");
+        console.error("Eth provider is not connected.");
         return;
       }
 
       let feedid;
+      
       switch (selectedPair) {
         case "BTC/USD":
           feedid = 1;
